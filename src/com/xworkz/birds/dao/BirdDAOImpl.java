@@ -8,66 +8,60 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.xworkz.birds.entity.BirdEntity;
+import com.xworkz.birds.util.SFUtil;
 
 public class BirdDAOImpl implements BirdDAO {
 
-	BirdEntity en = null;
-
 	@Override
 	public int save(BirdEntity entity) {
-		Configuration configure = new Configuration().configure().addAnnotatedClass(BirdEntity.class);
-		SessionFactory factory = configure.buildSessionFactory();
+		SessionFactory factory = SFUtil.getFactory();
 		Session session = factory.openSession();
 		Transaction trans = session.beginTransaction();
 		int pk = (int) session.save(entity);
 		trans.commit();
 		System.out.println(pk);
 		session.close();
-		factory.close();
+		//factory.close();
 		return pk;
 	}
 
 	@Override
-	public BirdEntity readById(int id) {
-		Configuration configure = new Configuration().configure().addAnnotatedClass(BirdEntity.class);
-		SessionFactory factory = configure.buildSessionFactory();
+	public BirdEntity readById(BirdEntity entity) {
+		SessionFactory factory = SFUtil.getFactory();
 		Session session = factory.openSession();
-		en = (BirdEntity) session.get(BirdEntity.class, id);
+		Transaction trans = session.beginTransaction();
+		BirdEntity bird = session.get(BirdEntity.class, entity.getId());
+		System.out.println(bird);
+		trans.commit();
 		session.close();
-		factory.close();
-		System.out.println("ReadById : " + en);
-		return en;
+		return bird;
+
 	}
 
 	@Override
-	public BirdEntity update(int id) {
-		Configuration configure = new Configuration().configure().addAnnotatedClass(BirdEntity.class);
-		SessionFactory factory = configure.buildSessionFactory();
+	public void update(int id, String name) {
+		SessionFactory factory = SFUtil.getFactory();
 		Session session = factory.openSession();
 		Transaction trans = session.beginTransaction();
-		en = (BirdEntity) session.get(BirdEntity.class, id);
-		en.setColor("BlacK");
-		session.update(en);
+		BirdEntity bird = session.get(BirdEntity.class, id);
+		bird.setName(name);
+		session.update(bird);
+		System.out.println(bird);
 		trans.commit();
-		System.out.println(en);
 		session.close();
-		factory.close();
-		return en;
+		//factory.close();
 	}
 
 	@Override
-	public BirdEntity delet(int id) {
-		Configuration configure = new Configuration().configure().addAnnotatedClass(BirdEntity.class);
-		SessionFactory factory = configure.buildSessionFactory();
-		Session session = factory.openSession();
+	public void delete(int id) {
+		SessionFactory fact = SFUtil.getFactory();
+		Session session = fact.openSession();
 		Transaction trans = session.beginTransaction();
-		en = (BirdEntity) session.get(BirdEntity.class, id);
-		session.delete(en);
+		BirdEntity bird = session.get(BirdEntity.class, id);
+		session.delete(bird);
+		System.out.println("deleted :" + bird);
 		trans.commit();
-		System.out.println(en);
 		session.close();
-		factory.close();
-		return en;
 	}
 
 }

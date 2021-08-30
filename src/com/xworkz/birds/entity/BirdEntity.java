@@ -7,9 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "bird_table")
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class BirdEntity implements Serializable {
 
 	@Column(name = "b_id")
