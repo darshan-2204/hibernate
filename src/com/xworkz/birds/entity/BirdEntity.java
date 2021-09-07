@@ -168,4 +168,7 @@ public class BirdEntity implements Serializable {
 		this.group = group;
 	}
 
+	
+	
+
 }

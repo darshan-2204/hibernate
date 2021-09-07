@@ -1,6 +1,8 @@
 package com.xworkz.birds.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -64,4 +66,42 @@ public class BirdDAOImpl implements BirdDAO {
 		session.close();
 	}
 
-}
+	@Override
+	public void saveList(List<BirdEntity> entity) {
+		
+		
+		SessionFactory factory = SFUtil.getFactory();
+		Session session = factory.openSession();
+		Transaction trans = session.beginTransaction();
+		entity.forEach(bird -> {
+			session.save(bird);
+			System.out.println(bird);
+		});
+		trans.commit();
+		session.close();
+		/*List<BirdEntity> result = new ArrayList<BirdEntity>();
+		for (BirdEntity bird : result) {
+			result.add((BirdEntity) entity);
+			System.out.println( bird);
+		}
+		
+		trans.commit();
+		session.close();*/
+	}
+
+	@Override
+	public void deleteList(List<BirdEntity> ids) {
+		SessionFactory factory = SFUtil.getFactory();
+		Session session = factory.openSession();
+		Transaction trans = session.beginTransaction();
+		ids.forEach(bird -> {
+			session.delete(bird);
+			System.out.println(bird);
+		});
+		trans.commit();
+		session.close();
+		
+	}}
+
+	
+

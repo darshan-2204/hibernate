@@ -8,6 +8,10 @@
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/transformers</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">7892441472hp</property>	
-		<mapping class="com.xworkz.birds.entity.BirdEntity"/>		
+		<property name="hibernate.show_sql">true</property>
+		<property name="format_sql">true</property>
+		<mapping class="com.xworkz.birds.entity.MobileEntity" />
+		<mapping class="com.xworkz.birds.entity.BirdEntity" />
+				
 	</session-factory>
 </hibernate-configuration>
